@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero + Navbar Premium</title>
+  <style>
+    /* Reset + Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Poppins", sans-serif; background: #0f0f0f; color: #fff; overflow-x: hidden; }
+
+    /* Navbar */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; padding: 20px 50px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.3s ease; z-index: 1000;
+    }
+    nav.scrolled { background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
+    nav .logo { font-size: 1.6rem; font-weight: 700; color: #ff4ecd; }
+    nav .links { display: flex; gap: 25px; }
+    nav a {
+      color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s;
+    }
+    nav a:hover { color: #ff4ecd; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer;
+    }
+    .hamburger span {
+      width: 25px; height: 3px; background: #fff; border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .links.mobile {
+      position: fixed; top: 0; right: -100%; height: 100vh; width: 220px;
+      background: #1a1a1a; flex-direction: column; justify-content: center; align-items: center;
+      transition: right 0.4s ease; gap: 30px;
+    }
+    .links.mobile.active { right: 0; }
+
+    /* Hero */
+    .hero {
+      height: 100vh; display: flex; justify-content: center; align-items: center;
+      flex-direction: column; text-align: center; padding: 0 20px; position: relative; overflow: hidden;
+    }
+    .hero h1 {
+      font-size: 3rem; font-weight: 700; margin-bottom: 15px; opacity: 0;
+      animation: fadeUp 1s ease forwards;
+    }
+    .hero h1 span.word { display: none; color: #ff4ecd; }
+    .hero h1 span.word.active { display: inline-block; }
+    .hero p {
+      font-size: 1.2rem; margin-bottom: 25px; opacity: 0.8; opacity: 0;
+      animation: fadeUp 1s ease 0.3s forwards;
+    }
+    .cta {
+      padding: 14px 32px; background: linear-gradient(90deg, #ff4ecd, #6a5cff);
+      border: none; border-radius: 30px; color: #fff; cursor: pointer; font-size: 1rem; font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; opacity: 0;
+      animation: fadeUp 1s ease 0.6s forwards;
+    }
+    .cta:hover { transform: scale(1.08); box-shadow: 0 10px 25px rgba(255, 78, 205, 0.5); }
+
+    /* Shapes */
+    .shape {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,78,205,0.6), transparent);
+      filter: blur(60px);
+    }
+    .shape.one { width: 400px; height: 400px; top: -100px; left: -100px; }
+    .shape.two { width: 300px; height: 300px; bottom: -80px; right: -80px;
+      background: radial-gradient(circle, rgba(106,92,255,0.6), transparent); }
+
+    /* Lottie */
+    #lottie { width: 300px; height: 300px; margin-top: 20px; }
+
+    /* Cursor */
+    .cursor {
+      position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+      border: 2px solid #fff; border-radius: 50%; pointer-events: none;
+      transform: translate(-50%, -50%); transition: transform 0.1s ease-out, width 0.2s, height 0.2s;
+      z-index: 2000;
+    }
+    a:hover ~ .cursor, button:hover ~ .cursor {
+      width: 40px; height: 40px; border-color: #ff4ecd;
+    }
+
+    /* Sections */
+    section {
+      min-height: 100vh; padding: 100px 50px; text-align: center;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    h2 { font-size: 2.5rem; margin-bottom: 30px; }
+    .cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;
+    }
+    .card {
+      background: #1a1a1a; padding: 30px; border-radius: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0; transform: translateY(50px);
+    }
+    .card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(255, 78, 205, 0.3); }
+    .card.visible { opacity: 1; transform: translateY(0); transition: all 0.8s ease; }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 15px 20px; }
+      .links { display: none; }
+      .hamburger { display: flex; }
+      .hero h1 { font-size: 2.2rem; }
+      #lottie { width: 220px; height: 220px; }
+      section { padding: 80px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="logo">MyStudio</div>
+    <div class="links">
+      <a href="#">Home</a>
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+    <div class="links mobile">
+      <a href="#">Home</a>
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="shape one" data-speed="2"></div>
+    <div class="shape two" data-speed="4"></div>
+    <h1>
+      We <span class="word active">Design</span>
+      <span class="word">Code</span>
+      <span class="word">Inspire</span>
+    </h1>
+    <p>We craft experiences that inspire & connect with your audience.</p>
+    <button class="cta">Get Started</button>
+    <div id="lottie"></div>
+  </section>
+
+  <!-- Work Section -->
+  <section id="work">
+    <h2>Our Work</h2>
+    <div class="cards">
+      <div class="card">Branding Project</div>
+      <div class="card">UI/UX Design</div>
+      <div class="card">Web Development</div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services">
+    <h2>Services</h2>
+    <div class="cards">
+      <div class="card">Creative Strategy</div>
+      <div class="card">Product Design</div>
+      <div class="card">Digital Marketing</div>
+    </div>
+  </section>
+
+  <!-- Cursor -->
+  <div class="cursor"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
+  <script>
+    // Navbar scroll effect
+    window.addEventListener("scroll", () => {
+      document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 50);
+    });
+
+    // Hamburger menu
+    const hamburger = document.querySelector(".hamburger");
+    const mobileMenu = document.querySelector(".links.mobile");
+    hamburger.addEventListener("click", () => {
+      mobileMenu.classList.toggle("active");
+    });
+
+    // Parallax shapes
+    document.addEventListener("mousemove", (e) => {
+      document.querySelectorAll(".shape").forEach(shape => {
+        const speed = shape.getAttribute("data-speed");
+        const x = (window.innerWidth - e.pageX * speed) / 100;
+        const y = (window.innerHeight - e.pageY * speed) / 100;
+        shape.style.transform = `translateX(${x}px) translateY(${y}px)`;
+      });
+    });
+
+    // Custom cursor
+    const cursor = document.querySelector(".cursor");
+    document.addEventListener("mousemove", (e) => {
+      cursor.style.top = e.clientY + "px";
+      cursor.style.left = e.clientX + "px";
+    });
+
+    // Lottie animation
+    lottie.loadAnimation({
+      container: document.getElementById("lottie"),
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: "https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json"
+    });
+
+    // Scroll reveal for cards
+    const cards = document.querySelectorAll(".card");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(card => observer.observe(card));
+
+    // Rotating words
+    const words = document.querySelectorAll(".word");
+    let index = 0;
+    setInterval(() => {
+      words[index].classList.remove("active");
+      index = (index + 1) % words.length;
+      words[index].classList.add("active");
+    }, 2000);
+  </script>
+</body>
+</html>
